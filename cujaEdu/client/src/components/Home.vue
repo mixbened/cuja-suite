@@ -28,6 +28,7 @@ export default {
     }
   },
   created(){
+    console.log('Google Api call', this.$gapi.currentUser)
   }
 }
 </script>

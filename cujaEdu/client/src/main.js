@@ -9,6 +9,7 @@ import store from './store/index'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueGoogleApi from 'vue-google-api'
 
 Vue.config.productionTip = false
 
@@ -18,11 +19,13 @@ var config = {
     databaseURL: "https://cuja-d9e71.firebaseio.com",
     projectId: "cuja-d9e71",
     storageBucket: "cuja-d9e71.appspot.com",
+    discoveryDocs: "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+    scopes: "https://www.googleapis.com/auth/drive.readonly",
+    clientId: "741338770706-gntvcgqgagkm9r6op9gi8g0old89ftbo.apps.googleusercontent.com",
     messagingSenderId: "741338770706"
   };
 
 firebase.initializeApp(config);
-
 
 Vue.use(BootstrapVue)
 

@@ -45,17 +45,17 @@ export default {
   },
   methods: {
     getModules(){
-        const functions = firebase.functions()
-        this.toggleLoading()
-        const getModules = firebase.functions().httpsCallable('helloWorld')
-        getModules({'key': 'Message from Frontend'}).then(res => {
-          console.log('Response ', res.data)
-        }).catch(err => {
-          var code = err.code;
-          var message = err.message;
-          var details = err.details;
-          console.log('Cloud Functions ', message)
-        })
+      const functions = firebase.functions()
+      this.toggleLoading()
+      const getModules = firebase.functions().httpsCallable('getModules')
+      getModules({'key': 'Message from Frontend'}).then(res => {
+        console.log('Response ', res)
+      }).catch(err => {
+        var code = err.code;
+        var message = err.message;
+        var details = err.details;
+        console.log('Cloud Functions ', message)
+      })
     },
     toggleLoading(){
           this.loading = !this.loading
