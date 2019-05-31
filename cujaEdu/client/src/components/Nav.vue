@@ -1,5 +1,6 @@
 <template>
   <b-navbar toggleable="lg" type="dark" class="cujaNav">
+    <b-navbar-brand href="#"><img class="logo" src="../assets/cuja.png" alt="logo cuja"></b-navbar-brand>
     <b-navbar-toggle target="nav_text_collapse" />
 
     <b-collapse is-nav id="nav_text_collapse">
@@ -18,9 +19,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import router from 'vue-router'
-import axios from 'axios'
 
 export default {
   name: 'Nav',
@@ -29,7 +27,7 @@ export default {
     }
   },
   computed: {
-    profile(){
+    profile () {
       return this.$store.state.profile
     }
   }
@@ -56,12 +54,16 @@ export default {
 .cujaNav {
   background: #00a7e1;
   color: white;
+  padding: 0 1%;
 }
 .navbar-toggler {
   border-color: rgba(255,255,255,0.8);
 }
 .nav-link {
   display: inline;
+}
+.logo {
+  width: 80px;
 }
 @media only screen and (max-width: 992px) {
   .profileTrigger {

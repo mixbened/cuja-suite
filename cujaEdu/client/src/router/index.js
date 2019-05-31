@@ -6,6 +6,8 @@ import Register from '@/components/Register'
 import Profile from '@/components/Profile'
 import Actions from '@/components/Actions'
 import Course from '@/components/Course'
+import Doc from '@/components/Doc'
+import Module from '@/components/Module'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -48,6 +50,22 @@ const router = new Router({
       }
     },
     {
+      path: '/module/:id',
+      name: 'Module',
+      component: Module,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/doc/:id',
+      name: 'Doc',
+      component: Doc,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/instructor',
       name: 'Instructor',
       component: Actions,
@@ -56,15 +74,15 @@ const router = new Router({
       }
     }
   ]
-});
+})
 
 router.beforeEach((to, from, next) => {
-  const currentUser = firebase.auth().currentUser;
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const currentUser = firebase.auth().currentUser
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   // console.log('Router: ', requiresAuth)
   // console.log('User: ', currentUser)
   // can build check with admin role
-  if(requiresAuth && !currentUser){
+  if (requiresAuth && !currentUser) {
     console.log('Redirect to LOGIN!')
     next('login')
   } else {
@@ -74,4 +92,4 @@ router.beforeEach((to, from, next) => {
   // else next();
 })
 
-export default router;
+export default router

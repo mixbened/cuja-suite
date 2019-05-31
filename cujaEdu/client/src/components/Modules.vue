@@ -1,6 +1,12 @@
 <template>
   <div>
-    <b-table striped hover small :items="modules" :fields="fields"></b-table>
+    <div v-if="selected.length > 0">
+      <b-button-group size="sm" class="m-2 float-left">
+        <router-link :to="docLink"><b-button v-if="selected.length == 1" variant="dark">Show</b-button></router-link>
+        <b-button variant="primary">Add to Course</b-button>
+      </b-button-group>
+    </div>
+    <b-table selectable striped hover small :items="modules" :fields="fields" @row-selected="rowSelect"></b-table>
     <div class="text-center" v-if="loading">
         <b-spinner class="cuja" label="Spinning"></b-spinner>
     </div>
@@ -8,60 +14,60 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 import firebase from 'firebase'
 import router from 'vue-router'
 import axios from 'axios'
 
 export default {
-  name: 'Students',
+  name: 'Modules',
   data () {
     return {
       profile: {},
       loading: false,
       modules: [],
+      selected: [],
       fields: {
-          UID: {
-            label: 'UID',
-            sortable: true
-          },
-          last: {
-            label: 'Last Name',
-            sortable: true
-          },
-          first: {
-            label: 'First name',
-            sortable: false
-          },
-          city: {
-            label: 'City',
-            sortable: true
-          },
-          organisation: {
-            label: 'Partner',
-            sortable: true
-          }
+        name: {
+          label: 'Module',
+          sortable: true
         }
+      }
     }
   },
   methods: {
-    getModules(){
+    getModules () {
+      console.log('Getting Modules..')
       const functions = firebase.functions()
       this.toggleLoading()
-      const getModules = firebase.functions().httpsCallable('getModules')
-      getModules({'key': 'Message from Frontend'}).then(res => {
-        console.log('Response ', res)
+      const instance = this
+      const getFolderList = firebase.functions().httpsCallable('getFolderList')
+      getFolderList({folderId: ''}).then(res => {
+        // console.log('Response ', res.data.files)
+        instance.modules = res.data.files
+        this.toggleLoading()
       }).catch(err => {
-        var code = err.code;
-        var message = err.message;
-        var details = err.details;
-        console.log('Cloud Functions ', message)
+        var code = err.code
+        var message = err.message
+        var details = err.details
+        console.log('Error receiving Modules: ', message)
       })
     },
-    toggleLoading(){
-          this.loading = !this.loading
-      }
+    toggleLoading () {
+      this.loading = !this.loading
+    },
+    rowSelect (rows) {
+      this.selected = rows
+    }
   },
-  created(){
+  computed: {
+    docLink () {
+      if (this.selected) {
+        return `/module/${this.selected[0].id}`
+      }
+    }
+  },
+  created () {
     this.getModules()
   }
 }

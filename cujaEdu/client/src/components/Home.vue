@@ -6,8 +6,6 @@
 
 <script>
 import firebase from 'firebase'
-import router from 'vue-router'
-import axios from 'axios'
 
 export default {
   name: 'Home',
@@ -17,18 +15,17 @@ export default {
     }
   },
   methods: {
-    logout: function(){
-      firebase.auth().signOut().then(function() {
-        alert("Signed Out!")
-      }).catch(function(error) {
-        alert("An Error occured: ", error)
-      });
+    logout: function () {
+      firebase.auth().signOut().then(function () {
+        alert('Signed Out!')
+      }).catch(function (error) {
+        alert('An Error occured: ', error)
+      })
       this.$store.commit('clearUser')
-      this.$router.push("/login")
+      this.$router.push('/login')
     }
   },
-  created(){
-    console.log('Google Api call', this.$gapi.currentUser)
+  created () {
   }
 }
 </script>

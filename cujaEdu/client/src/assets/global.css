@@ -44,3 +44,7 @@ a {
 .cuja {
   color: #00a7e1;
 }
+
+tbody, td, tr:focus {
+  outline: 0;
+}

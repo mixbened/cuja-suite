@@ -29,57 +29,57 @@ export default {
   components: {Students, Modules},
   data () {
     return {
-        courses: [],
-        loading: false
+      courses: [],
+      loading: false
     }
   },
   computed: {
-    profile(){
+    profile () {
       return this.$store.state.profile
     }
   },
   methods: {
-      getCourses: function(){
-        const db = firebase.firestore();
-        this.toggleLoading()
-        // console.log('Current User: ', this.profile.userRef)
-        const uid = this.profile.uid
-        const userRef = db.collection("users").doc(uid);
-        // console.log('Current User: ', userRef)
-        // make values and method accessible from inside the async
-        let instance = this
-        db.collection("courses").where("instructor", "==", userRef)
+    getCourses: function () {
+      const db = firebase.firestore()
+      this.toggleLoading()
+      // console.log('Current User: ', this.profile.userRef)
+      const uid = this.profile.uid
+      const userRef = db.collection('users').doc(uid)
+      // console.log('Current User: ', userRef)
+      // make values and method accessible from inside the async
+      let instance = this
+      db.collection('courses').where('instructor', '==', userRef)
         .get()
-        .then(function(querySnapshot) {
-            // INFO: filling course data by hand
-            console.log('Snap: ', querySnapshot.docs[0].data())
-            querySnapshot.docs.map(doc => {
-                const courseData = doc.data()
-                const startDate = courseData.date_start.toDate();
-                const endDate = courseData.date_end.toDate();
-                // TABLE DATA
-                instance.courses.push({"Partner": courseData.partner, title: courseData.title, location: courseData.location,"Date Start": startDate.toLocaleDateString(),"Date End": endDate.toLocaleDateString(),"Count Students": courseData.students.length,instructor: instance.profile.displayName})
-            })
-            instance.toggleLoading()
+        .then(function (querySnapshot) {
+          // INFO: filling course data by hand
+          // console.log('Snap: ', querySnapshot.docs[0].data())
+          querySnapshot.docs.map(doc => {
+            const courseData = doc.data()
+            const startDate = courseData.date_start.toDate()
+            const endDate = courseData.date_end.toDate()
+            // TABLE DATA
+            instance.courses.push({'Partner': courseData.partner, title: courseData.title, location: courseData.location, 'Date Start': startDate.toLocaleDateString(), 'Date End': endDate.toLocaleDateString(), 'Count Students': courseData.students.length, instructor: instance.profile.displayName})
+          })
+          instance.toggleLoading()
         })
-        .catch(function(error) {
-            console.log("Error getting documents: ", error);
-        });
-      },
-      toggleLoading(){
-          this.loading = !this.loading
-      }
+        .catch(function (error) {
+          console.log('Error getting documents: ', error)
+        })
+    },
+    toggleLoading () {
+      this.loading = !this.loading
+    }
   },
-    created(){
-        // check for instructor access
-        // console.log('Created: ', this.profile)
-        if(this.profile.role != "instructor") {
-            alert('Access denied')
-            this.$router.push("/login")
-        }
-        // get courses 
-        this.getCourses()
-  }  
+  created () {
+    // check for instructor access
+    // console.log('Created: ', this.profile)
+    if (this.profile.role !== 'instructor') {
+      alert('Access denied')
+      this.$router.push('/login')
+    }
+    // get courses
+    this.getCourses()
+  }
 }
 </script>
 

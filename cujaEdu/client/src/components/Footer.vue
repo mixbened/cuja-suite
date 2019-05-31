@@ -1,13 +1,11 @@
 <template>
   <footer id="footer">
-    <b-link v-if="profile.email" class=""@click="logout">Logout</b-link>
+    <b-link v-if="profile.email" class="" @click="logout">Logout</b-link>
   </footer>
 </template>
 
 <script>
 import firebase from 'firebase'
-import router from 'vue-router'
-import axios from 'axios'
 
 export default {
   name: 'Footer',
@@ -15,18 +13,18 @@ export default {
     return {}
   },
   methods: {
-    logout: function(){
-      firebase.auth().signOut().then(function() {
-        alert("Signed Out!")
-      }).catch(function(error) {
-        alert("An Error occured: ", error)
-      });
+    logout: function () {
+      firebase.auth().signOut().then(function () {
+        alert('Signed Out!')
+      }).catch(function (error) {
+        alert('An Error occured: ', error)
+      })
       this.$store.commit('clearUser')
-      this.$router.push("/login")
+      this.$router.push('/login')
     }
   },
   computed: {
-    profile(){
+    profile () {
       return this.$store.state.profile
     }
   }
@@ -36,7 +34,10 @@ export default {
 <style scoped>
 #footer {
   position: fixed;
+  width: 100%;
+  text-align: left;
   bottom: 0;
   padding: 1em;
+  background: transparent;
 }
 </style>

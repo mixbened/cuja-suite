@@ -9,17 +9,17 @@ export default {
   name: 'Create',
   data () {
     return {
-        title: "",
-        location: "",
-        partner: "",
-        date_start: "",
-        date_end: "",
-        modules: []
+      title: '',
+      location: '',
+      partner: '',
+      date_start: '',
+      date_end: '',
+      modules: []
     }
   },
   computed: {
-    profile(){
-        return  this.$store.state.profile
+    profile () {
+      return this.$store.state.profile
     }
   }
 }

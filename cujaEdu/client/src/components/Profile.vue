@@ -38,8 +38,8 @@ export default {
     }
   },
   computed: {
-    profile(){
-        return  this.$store.state.profile
+    profile () {
+      return this.$store.state.profile
     }
   }
 }

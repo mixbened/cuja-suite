@@ -10,11 +10,11 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
-    setUser: function(state, payload){
-        console.log('Store: ', payload)
-        state.profile = payload
+    setUser: function (state, payload) {
+      console.log('Store: ', payload)
+      state.profile = payload
     },
-    clearUser: function(state){
+    clearUser: function (state) {
       state.profile = {}
     }
   },

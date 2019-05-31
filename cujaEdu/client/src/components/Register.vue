@@ -37,62 +37,62 @@ export default {
   name: 'Register',
   data () {
     return {
-      email: "",
-      pw: "",
-      organisation: "",
-      first: "",
-      last: "",
-      city: "",
-      displayName: "",
-      phoneNumber: ""
+      email: '',
+      pw: '',
+      organisation: '',
+      first: '',
+      last: '',
+      city: '',
+      displayName: '',
+      phoneNumber: ''
     }
   },
   methods: {
-    register: function(){
-      const router = this.$router;
+    register: function () {
+      const router = this.$router
       // initiate and save instace in variable to access in async
-      var db = firebase.firestore();
-      let instance = this;
+      var db = firebase.firestore()
+      let instance = this
       // create new Auth-User if not exist and new User in Users Table to store additional Information
       firebase.auth().createUserWithEmailAndPassword(this.email, this.pw).then(res => {
         // get uID
         const uID = res.user.uid
         // set User Info from Auth Profile
         res.user.updateProfile({
-          displayName: `${instance.first} ${instance.last}` || "unset",
-          phoneNumber: instance.phoneNumber || "unset"
+          displayName: `${instance.first} ${instance.last}` || 'unset',
+          phoneNumber: instance.phoneNumber || 'unset'
         })
         // create User Entity in User Collection - use UID as Key
-        db.collection("users").doc(uID).set({
+        db.collection('users').doc(uID).set({
           // set roles manually for now in firestore console
-            role: "student",
-            first: instance.first || "unset",
-            last: instance.last || "unset",
-            city: instance.city || "unset",
-            organisation: instance.organisation || "unset"
+          role: 'student',
+          first: instance.first || 'unset',
+          last: instance.last || 'unset',
+          city: instance.city || 'unset',
+          organisation: instance.organisation || 'unset'
         })
-        .then(function(docRef) {
+          .then(function (docRef) {
             // all positive
-            console.log("User Document written with ID: ", docRef);
+            console.log('User Document written with ID: ', docRef)
             alert('User Registered!')
-            router.push("login")
-        })
-        .catch(function(error) {
+            router.push('login')
+          })
+          .catch(function (error) {
             // error in creating User Document
-            console.error("Error adding User document: ", error);
-        });
+            console.error('Error adding User document: ', error)
+          })
       })
-          .catch(function(error) {
+        .catch(function (error) {
         // Handle Errors from Auth-User
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
-        } else {
-          alert(errorMessage);
-        }
-        console.log(error);
-      });
+          var errorCode = error.code
+          var errorMessage = error.message
+          if (errorCode === 'auth/weak-password') {
+            alert('The password is too weak.')
+          } else {
+            alert(errorMessage)
+          }
+          console.log(error)
+        })
     }
   }
 }
