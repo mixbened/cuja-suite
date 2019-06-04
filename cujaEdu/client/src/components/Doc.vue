@@ -46,9 +46,13 @@ export default {
     cutOutImg (text) {
       // console.log('String', text)
       const indexStart = text.indexOf('<img')
-      const indexEnd = indexStart + 376
-      const cut = text.slice(0, indexStart - 1) + text.slice(indexEnd + 1, text.length)
-      return cut
+      if (indexStart > 0) {
+        const indexEnd = indexStart + 376
+        const cut = text.slice(0, indexStart - 1) + text.slice(indexEnd + 1, text.length)
+        return cut
+      } else {
+        return text
+      }
     }
   },
   created () {
@@ -60,6 +64,7 @@ export default {
 <style scoped>
   #wrapper {
     margin: 0 auto;
+    margin-bottom: 4em;
     padding: 0 5%;
     max-width: 1000px;
   }

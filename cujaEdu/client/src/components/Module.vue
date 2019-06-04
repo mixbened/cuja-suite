@@ -1,15 +1,20 @@
 <template>
   <div>
     <h4 class="title">{{ doc.name }}</h4>
-    <b-container>
+    <div class="text-center" v-if="loading">
+        <b-spinner class="cuja" label="Spinning"></b-spinner>
+    </div>
+    <b-container v-if="!loading">
         <b-jumbotron class="doc" header="Document" lead="Get Basic Information plus important Resources">
-          <router-link :to="docLink"><b-button variant="primary">Show</b-button></router-link>
+          <router-link  v-if="doc" :to="docLink"><b-button variant="primary">Show</b-button></router-link>
         </b-jumbotron>
         <b-jumbotron class="doc" header="Slides" lead="Presentation Slides for Classrooms">
-          <b-button variant="primary" target="_blank" :href="slidesLink">Show</b-button>
+          <b-button v-if="slides" variant="primary" target="_blank" :href="slidesLink">Show</b-button>
+          <b-button v-if="!instructions" variant="warning">No File</b-button>
         </b-jumbotron>
         <b-jumbotron class="doc" v-if="profile.role === 'instructor'" header="Instructions/Tipps" lead="This is only for Instructors, to get Information how to teach this Module">
-          <router-link :to="tippsLink"><b-button variant="primary">Show</b-button></router-link>
+          <router-link v-if="instructions" :to="tippsLink"><b-button variant="primary">Show</b-button></router-link>
+          <b-button v-if="!instructions" variant="warning">No File</b-button>
         </b-jumbotron>
     </b-container>
   </div>
@@ -64,13 +69,13 @@ export default {
       return this.$store.state.profile
     },
     docLink () {
-      return `/doc/${this.doc.id}`
+      if (this.doc) return `/doc/${this.doc.id}`
     },
     slidesLink () {
-      return `https://docs.google.com/presentation/d/e/${this.slides.id}/pub?start=false&loop=true&delayms=3000`
+      if (this.slides) return this.slides.webViewLink
     },
     tippsLink () {
-      return `/doc/${this.instructions.id}`
+      if (this.instructions) return `/doc/${this.instructions.id}`
     }
   },
   created () {

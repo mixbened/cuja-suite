@@ -23,9 +23,9 @@ exports.getFolderList = functions.https.onCall((data, context) => {
     // searching for files, that have the specified folderId as parent - if there is no folderId present in the request, we search for modules
     let driveReq = {}
     if(data.folderId.length) {
-        driveReq = {q: `'${data.folderId}' in parents`}
+        driveReq = {q: `'${data.folderId}' in parents`, fields: 'files(id, name, mimeType, webViewLink)'}
     } else {
-        driveReq = {q: `'${folderId}' in parents`}
+        driveReq = {q: `'${folderId}' in parents`, fields: 'files(id, name, mimeType, webViewLink)'}
     }
     // console.log('We search with: ', driveReq)
     // searching in drive - return promise 
